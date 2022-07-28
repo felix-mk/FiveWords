@@ -55,17 +55,17 @@ def filter_duplicate_letters(words):
 
 	return words_no_duplicate_letters
 
-def filter_acronyms(words):
-	acronym_table = {}
+def filter_anagrams(words):
+	anagram_table = {}
 
 	for word in words:
 		sorted_word = ''.join(sorted(word))
-		if sorted_word in acronym_table:
-			acronym_table[sorted_word].append(word)
+		if sorted_word in anagram_table:
+			anagram_table[sorted_word].append(word)
 		else:
-			acronym_table[sorted_word] = [word]
+			anagram_table[sorted_word] = [word]
 
-	return [key for key in acronym_table], acronym_table
+	return [key for key in anagram_table], anagram_table
 
 def is_valid_pair(word1, word2):
 	char_set = set(word1)
@@ -122,38 +122,38 @@ def split_word(word):
 def split_words(words):
 	return [split_word(word) for word in words]
 
-def substitute_acronyms(words, acronyms, pair_acronyms, pair_pair_acronyms):
+def substitute_anagrams(words, anagrams, pair_anagrams, pair_pair_anagrams):
 	words_as_touple = split_words(words)
 
 	pair_pair_word = []
 	for word in words_as_touple:
-		ac = pair_pair_acronyms[word[0] + word[1] + word[2] + word[3]]
+		ac = pair_pair_anagrams[word[0] + word[1] + word[2] + word[3]]
 		for a in ac:
 			pair_pair_word.append(split_word(a + word[4]))
 
 	word_word_pair_word = []
 	for word in pair_pair_word:
-		ac = pair_acronyms[word[0] + word[1]]
+		ac = pair_anagrams[word[0] + word[1]]
 		for a in ac:
 			word_word_pair_word.append(split_word(a + word[2] + word[3] + word[4]))
 
 	word_word_word_word_word = []
 	for word in word_word_pair_word:
-		ac = pair_acronyms[word[2] + word[3]]
+		ac = pair_anagrams[word[2] + word[3]]
 		for a in ac:
 			word_word_word_word_word.append(split_word(word[0] + word[1] + a + word[4]))
 
 	res = set()
 	for word in word_word_word_word_word:
-		ac = acronyms[word[0]]
+		ac = anagrams[word[0]]
 		for a in ac:
-			aac = acronyms[word[1]]
+			aac = anagrams[word[1]]
 			for aa in aac:
-				aaac = acronyms[word[2]]
+				aaac = anagrams[word[2]]
 				for aaa in aaac:
-					aaaac = acronyms[word[3]]
+					aaaac = anagrams[word[3]]
 					for aaaa in aaaac:
-						aaaaac = acronyms[word[4]]
+						aaaaac = anagrams[word[4]]
 						for aaaaa in aaaaac:
 							res.add(' '.join(sorted([a, aa, aaa, aaaa, aaaaa])))
 
@@ -168,21 +168,21 @@ def main():
 	print(len(words), 'length 5 words.')
 	words = filter_duplicate_letters(words)
 	print(len(words), 'words with unique letters.')
-	words, acronyms = filter_acronyms(words)
+	words, anagrams = filter_anagrams(words)
 	print(len(words), 'equivalent words up to letter rearrangement.')
 	w_words = words
 	words = valid_pairs(words)
 	print(len(words), 'valid pairs.')
-	words, pair_acronyms = filter_acronyms(words)
+	words, pair_anagrams = filter_anagrams(words)
 	print(len(words), 'equivalent pairs up to letter rearrangement.')
 	words = valid_pairs(words)
 	print(len(words), 'valid pairs of pairs')
-	words, pair_pair_acronyms = filter_acronyms(words)
+	words, pair_pair_anagrams = filter_anagrams(words)
 	print(len(words), 'equivalent pairs of pairs up to letter rearrangement.')
 	words = valid_pairs2(words, w_words)
 	print(len(words), 'valid pairs of pairs and word.')
-	words = substitute_acronyms(words, acronyms, pair_acronyms, pair_pair_acronyms)
-	print(len(words), 'valid combinations with acronyms.')
+	words = substitute_anagrams(words, anagrams, pair_anagrams, pair_pair_anagrams)
+	print(len(words), 'valid combinations with anagrams.')
 	write_words(words, word_res_db)
 	print('done.')
 
