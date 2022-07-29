@@ -1,0 +1,12 @@
+370105 words.
+370105 unique words
+15920 length 5 words.
+10175 words with unique letters.
+5977 equivalent words up to letter rearrangement.
+3213696 valid pairs.
+640023 equivalent pairs up to letter rearrangement.
+19841179 valid pairs of pairs
+54626 equivalent pairs of pairs up to letter rearrangement.
+668 valid pairs of pairs and word.
+831 valid combinations with anagrams.
+done.
